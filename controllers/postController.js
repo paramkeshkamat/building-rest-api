@@ -44,9 +44,8 @@ const updatePost = async (req, res) => {
 };
 
 const putPost = async (req, res) => {
-  const { id } = req.params;
   try {
-    const updatedPost = await Post.updateOne(id, req.body);
+    const updatedPost = await Post.updateOne({_id: req.params.id}, {$set: req.body});
     res.json(updatedPost);
   } catch (err) {
     res.json(err);
@@ -55,7 +54,7 @@ const putPost = async (req, res) => {
 
 const deletePost = async (req, res) => {
   try {
-    const deletedPost = await Post.findByIdAndDelete(req.params.id);
+    const deletedPost = await Post.deleteOne(req.params.id);
     res.json(deletedPost);
   } catch (err) {
     res.json(err);
