@@ -3,9 +3,9 @@ const Post = require("../models/posts");
 const getPosts = async (req, res) => {
   try {
     const allPosts = await Post.find();
-    res.json(allPosts);
+    res.status(200).json(allPosts);
   } catch (err) {
-    res.json(err);
+    res.status(500).json(err);
   }
 };
 
@@ -16,18 +16,18 @@ const addPost = async (req, res) => {
   });
   try {
     const newPost = await post.save();
-    res.json(newPost);
+    res.status(201).json(newPost);
   } catch (err) {
-    res.json(err);
+    res.status(400).json(err);
   }
 };
 
 const getSpecificPost = async (req, res) => {
   try {
     const specificPost = await Post.findById(req.params.id);
-    res.json(specificPost);
+    res.status(200).json(specificPost);
   } catch (err) {
-    res.json(err);
+    res.status(500).json(err);
   }
 };
 
@@ -37,27 +37,30 @@ const updatePost = async (req, res) => {
       { _id: req.params.id },
       { $set: { title: req.body.title } }
     );
-    res.json(updatedPost);
+    res.status(201).json(updatedPost);
   } catch (err) {
-    res.json(err);
+    res.status(400).json(err);
   }
 };
 
 const putPost = async (req, res) => {
   try {
-    const updatedPost = await Post.updateOne({_id: req.params.id}, {$set: req.body});
-    res.json(updatedPost);
+    const updatedPost = await Post.updateOne(
+      { _id: req.params.id },
+      { $set: req.body }
+    );
+    res.status(201).json(updatedPost);
   } catch (err) {
-    res.json(err);
+    res.status(400).json(err);
   }
 };
 
 const deletePost = async (req, res) => {
   try {
-    const deletedPost = await Post.deleteOne(req.params.id);
-    res.json(deletedPost);
+    const deletedPost = await Post.deleteOne({_id: req.params.id});
+    res.status(200).json(deletedPost);
   } catch (err) {
-    res.json(err);
+    res.status(500).json(err);
   }
 };
 

@@ -5,12 +5,12 @@ const dotenv = require("dotenv");
 const postRoutes = require("./routes/postRoutes");
 
 const app = express();
+const port = process.env.PORT || 8000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 dotenv.config();
-app.use("/posts", postRoutes);
 
 mongoose.connect(
   process.env.DB_URI,
@@ -23,12 +23,8 @@ mongoose.connect(
   () => console.log("DB connected!")
 );
 
-app.get("/", (req, res) => {
-  res.send("Home Page");
-});
+app.get("/", (req, res) => res.send("Home Page"));
+app.use("/posts", postRoutes);
+app.use((req, res) => res.status(404).send("Page not found!"));
 
-app.use((req, res) => {
-  res.status(404).send("Page not found!");
-});
-
-app.listen(8000);
+app.listen(8001);
