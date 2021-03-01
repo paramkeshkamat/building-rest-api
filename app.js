@@ -27,4 +27,4 @@ app.get("/", (req, res) => res.send("Home Page"));
 app.use("/posts", postRoutes);
 app.use((req, res) => res.status(404).send("Page not found!"));
 
-app.listen(8001);
+app.listen(port);
